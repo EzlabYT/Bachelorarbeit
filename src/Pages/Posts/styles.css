@@ -1,0 +1,12 @@
+.card {
+    margin-bottom: 16px;
+}
+
+.more-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.more-link:hover {
+    color: unset;
+}
