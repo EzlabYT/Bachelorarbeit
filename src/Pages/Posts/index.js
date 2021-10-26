@@ -16,6 +16,11 @@ function Posts() {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        getPosts()
+    }, [])
+
+    // GET-Request an alle Posts und speichern im State
+    function getPosts() {
         axios.get('/wp-json/wp/v2/posts')
             .then(response => {
                 setPosts(response.data)
@@ -23,10 +28,12 @@ function Posts() {
             .catch(error => {
                 console.log(error)
             })
-    }, [posts])
+    }
 
+    // DELETE-Request an den Post mit der übergebenen ID
     function handleDelete(id) {
         axios.delete(`/wp-json/wp/v2/posts/${id}`, {
+            // Übergabe des JWT-Tokens
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -34,6 +41,7 @@ function Posts() {
         })
             .then(response => {
                 console.log(`DELETE post ${id}, res:`, response)
+                getPosts() // um den neuen stand der Posts zu bekommen
             })
             .catch(error => {
                 console.log(error)
@@ -42,6 +50,7 @@ function Posts() {
 
     return (
         <Container>
+            {/* Darstellen alles Posts */}
             {posts.map((post, index) => (
                 <Card key={index} className='card'>
                     <Card.Body>
@@ -54,12 +63,11 @@ function Posts() {
                                     weiter Lesen
                                 </Link>
                             </Button>
-                            {authState && (
+                            {authState && ( // prüft ob der Nutzer eingeloggt ist
                                 <Button variant={'danger'} onClick={() => handleDelete(post.id)}>löschen</Button>
                             )}
                         </div>
                     </Card.Body>
-                    <Card.Footer></Card.Footer>
                 </Card>
             ))}
         </Container>

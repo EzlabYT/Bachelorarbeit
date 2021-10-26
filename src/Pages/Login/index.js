@@ -29,6 +29,7 @@ function Login() {
             password: password
         };
 
+        // POST-Request um vom Server einen JWT-Token zu bekommen, der im localStorage gespeichert wird
         axios.post('/wp-json/jwt-auth/v1/token', loginData)
             .then( response => {
                 if ( response.status === 200 ) {
@@ -40,22 +41,21 @@ function Login() {
                     handleUserLogin();
                 }
             })
+            // hier werden einige Fehlerfälle individuell abgefangen und in der Konsole geloggt
             .catch( error => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
+                    // Die Anfrage wurde gestellt und der Server antwortete mit einem Statuscode
+                    // alles das nicht in den Bereich von 2xx fällt
                     setInputError(true)
                     setErrorMessage(error.response.data.message)
                     console.log('err.res.data', error.response.data);
                     console.log('err.res.status', error.response.status);
                     console.log('err.res.headers', error.response.headers);
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
+                    // Die Anfrage wurde erfolgreich übermittelt, aber keine Antwort erhalten
                     console.log('err.request', error.request);
                 } else {
-                    // Something happened in setting up the request that triggered an Error
+                    // etwas wurde beim Request falsch gemacht
                     console.log('Error', error.message);
                 }
                 console.log('err.config', error.config);
@@ -63,9 +63,10 @@ function Login() {
     }
 
     if (authState) {
+        // bei erfolgreicher Authentifizierung wird der Nutzer auf das Dashboard weitergeleitet
         return ( <Redirect to={'/dashboard'} />)
     }
-    return (
+    return ( // rendern des Loginformulares
         <Container>
             <Form className='form' onSubmit={handleSubmit}>
                 {inputError &&

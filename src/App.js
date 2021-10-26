@@ -3,7 +3,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
-// import ApiDomainContextProvider from './context/ApiDomainContextProvider';
 import AuthContextProvider from './context/AuthContextProvider';
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -22,7 +21,6 @@ function App() {
     axios.defaults.baseURL = 'http://localhost/wordpress'
 
     return (
-      // <ApiDomainContextProvider>
           <AuthContextProvider>
               <Router>
                   <div className='page-container'>
@@ -39,7 +37,6 @@ function App() {
                   </div>
               </Router>
           </AuthContextProvider>
-      // </ApiDomainContextProvider>
     );
 }
 

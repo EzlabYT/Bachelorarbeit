@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import * as Cookies from 'js-cookie';
 
+// Diese Komponente dient zur Kontrolle des Userlogins
+// Sie stellt Funktionen zum User-login und -logout bereit
+// Über einen Cookie wird geprüft ob der User eingeloggt ist oder nicht. Das ganze wird in einem State gepeichert.
+
 function AuthContextProvider(props) {
 
     const [isAuthenticated, setIsAuthenticated] = useState()
